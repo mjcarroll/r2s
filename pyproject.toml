@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "r2s"
+version = "0.1.0"
+description = "A TUI for ROS 2"
+authors = ["Michael Carroll <mjcarroll@intrinsic.ai>"]
+license = "Apache License 2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+textual = "^0.74.0"
+
+[tool.poetry.group.dev.dependencies]
+textual-dev = "^1.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+r2s = "r2s.main:main"

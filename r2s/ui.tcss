@@ -1,0 +1,47 @@
+#header {
+  border: double lightblue;
+  border-title-align: center;
+  grid-columns: 20 1fr 50;
+  grid-size: 3;
+  height: 7;
+  layout: grid;
+}
+
+.header-box {
+  margin: 0 0 0 3;
+  text-align: left;
+}
+
+#body {
+  border: double lightblue;
+  border-title-align: center;
+  grid-columns: 20 1fr 50;
+  grid-size: 3;
+  height: 1fr;
+  layout: grid;
+}
+
+
+Horizontal {
+  align: center middle;
+  column-span: 2;
+}
+
+ModalScreen {
+    align: center middle;
+}
+
+Screen {
+  color: $text;
+  overflow-y: hidden;
+}
+
+#help {
+    grid-gutter: 1 2;
+    grid-rows: 1fr 3;
+    padding: 0 1;
+    width: 88;
+    height: 25;
+    border: thick $background 80%;
+    background: $surface;
+}
