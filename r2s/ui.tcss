@@ -13,14 +13,8 @@
 }
 
 #body {
-  border: double lightblue;
   border-title-align: center;
-  grid-columns: 20 1fr 50;
-  grid-size: 3;
-  height: 1fr;
-  layout: grid;
 }
-
 
 Horizontal {
   align: center middle;
@@ -45,3 +39,4 @@ Screen {
     border: thick $background 80%;
     background: $surface;
 }
+
