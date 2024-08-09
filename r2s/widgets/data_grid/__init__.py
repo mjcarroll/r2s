@@ -23,11 +23,14 @@ class DataGrid(Horizontal):
     """
 
     BINDINGS = [
+        Binding("<,left", "dec_sort_key", "Previous Sort"),
+        Binding(">,right", "inc_sort_key", "Next Sort"),
         Binding("ctrl+f", "show_find_dialog", "Find", key_display="^f"),
         Binding("slash", "show_find_dialog", "Find", key_display="^f", show=False),
     ]
 
     show_find: reactive[bool] = reactive(False)
+    sort_idx: int = 0
 
     def columns(self) -> List[str]:
         """Get the column labels"""
@@ -73,4 +76,22 @@ class DataGrid(Horizontal):
         event.stop()
         self.show_find = False
 
+    def action_inc_sort_key(self) -> None:
+        """Method called to update the table sort key attribute."""
+        table = self.query_one(DataTable)
+        self.sort_idx = self.sort_idx + 1
 
+        cols = self.columns()
+        if self.sort_idx >= len(cols):
+            self.sort_idx = len(cols) - 1
+
+        table.sort(cols[self.sort_idx].lower())
+
+    def action_dec_sort_key(self) -> None:
+        table = self.query_one(DataTable)
+        self.sort_idx = self.sort_idx - 1
+        cols = self.columns()
+        if self.sort_idx < 0:
+            self.sort_idx = 0
+
+        table.sort(cols[self.sort_idx].lower())

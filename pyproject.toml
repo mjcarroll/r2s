@@ -7,11 +7,12 @@ license = "Apache License 2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 textual = "^0.74.0"
 psutil = "^6.0.0"
 distro = "^1.9.0"
 colcon-common-extensions = "^0.3.0"
+numpy = "^2.0.1"
 
 [tool.poetry.group.dev.dependencies]
 textual-dev = "^1.5.1"

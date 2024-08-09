@@ -4,7 +4,6 @@ import os
 
 from textual import log
 from textual.app import ComposeResult
-from textual.binding import Binding
 from textual.message import Message
 from textual.screen import Screen
 from textual.widget import Widget
@@ -74,14 +73,7 @@ class PackageListWatcher(WatcherBase):
 
 
 class PackageListGrid(DataGrid):
-
-    BINDINGS = [
-        Binding("<,left", "dec_sort_key", "Previous Sort"),
-        Binding(">,right", "inc_sort_key", "Next Sort"),
-
-    ]
     base_path:str  = "/usr/local/google/home/mjcarroll/workspaces/ros2_rolling"
-    sort_idx: int = 0
 
     def columns(self):
         return ["Name", "Version", "Type", "Path"]
@@ -102,26 +94,6 @@ class PackageListGrid(DataGrid):
                     pp,
                     key=pp
                 )
-
-    def action_inc_sort_key(self) -> None:
-        """Method called to update the table sort key attribute."""
-        table = self.query_one(DataTable)
-        self.sort_idx = self.sort_idx + 1
-
-        cols = self.columns()
-        if self.sort_idx >= len(cols):
-            self.sort_idx = len(cols) - 1
-
-        table.sort(cols[self.sort_idx].lower())
-
-    def action_dec_sort_key(self) -> None:
-        table = self.query_one(DataTable)
-        self.sort_idx = self.sort_idx - 1
-        cols = self.columns()
-        if self.sort_idx < 0:
-            self.sort_idx = 0
-
-        table.sort(cols[self.sort_idx].lower())
 
 
 class PackageListScreen(Screen):
