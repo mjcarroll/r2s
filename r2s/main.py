@@ -1,7 +1,7 @@
-from ui import UI
+from . import ui
 
 def main(*args, **kwargs):
-    app = UI()
+    app = ui.UI()
     app.run()
 
 if __name__ == "__main__":
