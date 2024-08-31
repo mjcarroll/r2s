@@ -1,17 +1,14 @@
+from typing import List
+
+from rich.text import Text
 from textual import on
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal
-
 from textual.reactive import reactive
-
-from rich.text import Text
-
 from textual.widgets import DataTable
 
 from r2s.widgets.find_dialog import FindDialog
-
-from typing import List
 
 
 class DataGrid(Horizontal):

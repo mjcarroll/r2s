@@ -1,19 +1,16 @@
 from dataclasses import dataclass
+from typing import List
 
 from textual import log
 from textual.app import ComposeResult
-from textual.screen import Screen
 from textual.message import Message
+from textual.screen import Screen
 from textual.widget import Widget
 from textual.widgets import DataTable
 
-from r2s.watcher import WatcherBase
-from r2s.widgets import DataGrid
-from r2s.widgets import Header
-
 from r2s.screens.ros2.get_node import get_node
-
-from typing import List
+from r2s.watcher import WatcherBase
+from r2s.widgets import DataGrid, Header
 
 
 @dataclass(frozen=True, eq=False)

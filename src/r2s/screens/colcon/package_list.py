@@ -1,7 +1,12 @@
-from dataclasses import dataclass
-from argparse import ArgumentParser
 import os
+from argparse import ArgumentParser
+from dataclasses import dataclass
+from pathlib import Path
+from typing import List
 
+from colcon_core.location import set_default_config_path  # noqa: E402
+from colcon_core.package_selection import add_arguments as add_packages_arguments
+from colcon_core.package_selection import get_package_descriptors
 from textual import log
 from textual.app import ComposeResult
 from textual.message import Message
@@ -9,17 +14,8 @@ from textual.screen import Screen
 from textual.widget import Widget
 from textual.widgets import DataTable
 
-from r2s.widgets import Header
-from r2s.widgets import DataGrid
 from r2s.watcher import WatcherBase
-
-from pathlib import Path
-
-from typing import List
-
-from colcon_core.location import set_default_config_path  # noqa: E402
-from colcon_core.package_selection import add_arguments as add_packages_arguments
-from colcon_core.package_selection import get_package_descriptors
+from r2s.widgets import DataGrid, Header
 
 
 @dataclass(frozen=True, eq=False)

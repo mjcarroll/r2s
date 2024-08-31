@@ -1,15 +1,11 @@
 import time
 
-from textual.screen import Screen
-from textual.app import ComposeResult
-
-from textual.widgets import Footer
-
 from textual import log
+from textual.app import ComposeResult
+from textual.screen import Screen
 
-from r2s.widgets import Header
-from r2s.widgets import DataGrid
 from r2s.watcher import WatcherBase
+from r2s.widgets import DataGrid, Header
 
 
 class NodeWatcher(WatcherBase):

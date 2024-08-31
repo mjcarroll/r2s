@@ -3,7 +3,6 @@ import os
 import rclpy
 from rclpy.parameter import Parameter
 
-
 DEFAULT_TIMEOUT = 0.5
 NODE_NAME_PREFIX = "r2s"
 

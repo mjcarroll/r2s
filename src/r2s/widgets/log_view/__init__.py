@@ -3,8 +3,9 @@ from textual.binding import Binding
 from textual.containers import Horizontal
 from textual.reactive import reactive
 
-from .log_lines import LogLines
 from r2s.widgets.find_dialog import FindDialog
+
+from .log_lines import LogLines
 
 
 class LogView(Horizontal):

@@ -1,8 +1,5 @@
 from abc import ABC, abstractmethod
-
-from textual.app import App
-
-from threading import Thread, Event
+from threading import Event, Thread
 
 
 class WatcherBase(ABC):

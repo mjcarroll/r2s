@@ -1,9 +1,7 @@
+from rich import terminal_theme
 from textual.app import App
 from textual.binding import Binding
-from rich import terminal_theme
 
-from r2s.screens.main_screen import MainScreen
-from r2s.screens.colcon.package_list import PackageListScreen
 from r2s.screens.ros2.nodes import NodeListScreen
 
 

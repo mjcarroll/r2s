@@ -1,6 +1,5 @@
-from textual.scroll_view import ScrollView
-
 from textual.reactive import reactive
+from textual.scroll_view import ScrollView
 
 
 class LogLines(ScrollView):
