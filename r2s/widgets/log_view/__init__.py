@@ -6,6 +6,7 @@ from textual.reactive import reactive
 from .log_lines import LogLines
 from r2s.widgets.find_dialog import FindDialog
 
+
 class LogView(Horizontal):
     DEFAULT_CSS = """
     LogLines {
@@ -24,10 +25,9 @@ class LogView(Horizontal):
 
     def compose(self) -> ComposeResult:
         yield (
-                log_lines := LogLines().data_bind(
-                    LogView.show_line_numbers, 
-                    LogView.show_find
-                )
+            log_lines := LogLines().data_bind(
+                LogView.show_line_numbers, LogView.show_find
+            )
         )
         yield FindDialog()
 
@@ -48,4 +48,3 @@ class LogView(Horizontal):
         ):
             self.show_find = True
             find_dialog.focus_input()
-

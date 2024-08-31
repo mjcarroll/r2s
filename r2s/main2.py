@@ -11,6 +11,7 @@ from rich.text import Text
 
 from r2s.modals import HelpModal
 
+
 class NodeWidget(Widget):
     DEFAULT_CSS = """
         NodeWidget {
@@ -18,21 +19,22 @@ class NodeWidget(Widget):
             width: 100%;
         } 
     """
+
     def compose(self) -> ComposeResult:
         table: DataTable[Text] = DataTable(
-            id = "node_table",
-            header_height = 1,
-            show_cursor = True,
-            zebra_stripes = True,
+            id="node_table",
+            header_height=1,
+            show_cursor=True,
+            zebra_stripes=True,
         )
         table.focus()
-        table.add_column('ns')
-        table.add_column('node')
+        table.add_column("ns")
+        table.add_column("node")
 
-        table.add_row(Text('foo', justify='left'), Text('bar'))
-        table.add_row(Text('foo', justify='left'), Text('baz'))
-        table.cursor_type='row'
-        table.ordered_columns[0].content_width=50
+        table.add_row(Text("foo", justify="left"), Text("bar"))
+        table.add_row(Text("foo", justify="left"), Text("baz"))
+        table.cursor_type = "row"
+        table.ordered_columns[0].content_width = 50
         yield table
 
 
@@ -57,22 +59,20 @@ class r2sApp(App):
     CSS_PATH = "ui.tcss"
     ENABLE_COMMAND_PALETTE = False
 
-
     BINDINGS = [
         Binding("ctrl+c,q", "quit", "Quit", show=True, key_display="Q"),
         Binding("esc", "escape", "Esc"),
         ("/", "search", "Search"),
         (":", "command", "Command"),
-        ("?", "help", "Help")
+        ("?", "help", "Help"),
     ]
 
     def on_mount(self):
-       self.search = self.get_widget_by_id("search")
-       self.command = self.get_widget_by_id("command")
-       self.search.disabled = True
-       self.command.disabled = True
+        self.search = self.get_widget_by_id("search")
+        self.command = self.get_widget_by_id("command")
+        self.search.disabled = True
+        self.command.disabled = True
 
-    
     def compose(self):
         yield AppHeader(id="header")
         with ContentSwitcher(id="switcher"):
@@ -105,16 +105,17 @@ class r2sApp(App):
         if event.input.id == "search":
             self.app.search.value = ""
             self.search.disabled = True
-            self.query_one(ContentSwitcher).current = None 
+            self.query_one(ContentSwitcher).current = None
         elif event.input.id == "command":
             self.app.command.value = ""
             self.command.disabled = True
-            self.query_one(ContentSwitcher).current = None 
+            self.query_one(ContentSwitcher).current = None
 
 
 def main(*args, **kwargs):
     app = r2sApp()
     app.run()
+
 
 if __name__ == "__main__":
     main()

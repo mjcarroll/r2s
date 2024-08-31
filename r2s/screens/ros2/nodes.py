@@ -41,8 +41,13 @@ class NodeListWatcher(WatcherBase):
 
             # Fill list of nodes here
             for t in node_names_and_namespaces:
-                nodes.append(Node(name=t[0], namespace=t[1],
-                                  full_name=t[1] + ('' if t[1].endswith('/') else '/') + t[0]))
+                nodes.append(
+                    Node(
+                        name=t[0],
+                        namespace=t[1],
+                        full_name=t[1] + ("" if t[1].endswith("/") else "/") + t[0],
+                    )
+                )
 
             self.target.post_message(NodesFetched(nodes))
 
@@ -58,10 +63,10 @@ class NodeListGrid(DataGrid):
         for node in message.node_list:
             if node.full_name not in table.rows:
                 table.add_row(
-                        node.namespace,
-                        node.name,
-                        node.full_name,
-                        )
+                    node.namespace,
+                    node.name,
+                    node.full_name,
+                )
 
 
 class NodeListScreen(Screen):
@@ -80,6 +85,7 @@ class NodeListScreen(Screen):
     def on_unmount(self) -> None:
 
         self.watcher.close()
+
     def compose(self) -> ComposeResult:
         yield Header()
         yield NodeListGrid()

@@ -15,7 +15,19 @@ colcon-common-extensions = "^0.3.0"
 numpy = "^2.0.1"
 
 [tool.poetry.group.dev.dependencies]
-textual-dev = "^1.5.1"
+black = "24.4.2"
+mypy = "^1.0.0"
+pre-commit = "^2.13.0"
+pytest = "^8.3.1"
+pytest-xdist = "^3.6.1"
+pytest-asyncio = "*"
+pytest-cov = "^5.0.0"
+textual-dev = "^1.2.0"
+types-setuptools = "^67.2.0.1"
+types-tree-sitter = "^0.20.1.4"
+types-tree-sitter-languages = "^1.7.0.1"
+isort = "^5.13.2"
+pytest-textual-snapshot = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]

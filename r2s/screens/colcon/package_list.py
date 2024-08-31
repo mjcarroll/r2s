@@ -18,9 +18,9 @@ from pathlib import Path
 from typing import List
 
 from colcon_core.location import set_default_config_path  # noqa: E402
-from colcon_core.package_selection import add_arguments \
-    as add_packages_arguments
+from colcon_core.package_selection import add_arguments as add_packages_arguments
 from colcon_core.package_selection import get_package_descriptors
+
 
 @dataclass(frozen=True, eq=False)
 class Package:
@@ -41,10 +41,11 @@ class PackageListWatcher(WatcherBase):
     target: Widget | None = None
 
     def run(self) -> None:
-        command_name = 'colcon'
+        command_name = "colcon"
         set_default_config_path(
-            path=(Path('~') / f'.{command_name}').expanduser(),
-            env_var=f'{command_name}_HOME'.upper())
+            path=(Path("~") / f".{command_name}").expanduser(),
+            env_var=f"{command_name}_HOME".upper(),
+        )
 
         parser = ArgumentParser()
         add_packages_arguments(parser)
@@ -59,21 +60,23 @@ class PackageListWatcher(WatcherBase):
             for descrip in descriptors:
                 log(descrip)
                 vv = None
-                if 'version' in descrip.metadata:
-                    vv = descrip.metadata['version']
-                packages.append(Package(
-                    name=descrip.name,
-                    path=descrip.path,
-                    type=descrip.type,
-                    version=vv
-                ))
+                if "version" in descrip.metadata:
+                    vv = descrip.metadata["version"]
+                packages.append(
+                    Package(
+                        name=descrip.name,
+                        path=descrip.path,
+                        type=descrip.type,
+                        version=vv,
+                    )
+                )
             if self.target is not None:
                 self.target.post_message(PackagesFetched(packages))
             break
 
 
 class PackageListGrid(DataGrid):
-    base_path:str  = "/usr/local/google/home/mjcarroll/workspaces/ros2_rolling"
+    base_path: str = "/usr/local/google/home/mjcarroll/workspaces/ros2_rolling"
 
     def columns(self):
         return ["Name", "Version", "Type", "Path"]
@@ -84,15 +87,14 @@ class PackageListGrid(DataGrid):
         table = self.query_one("#data_table", DataTable)
 
         for package in message.package_list:
-            pp = os.path.relpath(package.path,
-                                 os.path.join(self.base_path, "src"))
+            pp = os.path.relpath(package.path, os.path.join(self.base_path, "src"))
             if pp not in table.rows:
                 table.add_row(
                     package.name,
                     package.version if package.version else "",
                     package.type,
                     pp,
-                    key=pp
+                    key=pp,
                 )
 
 

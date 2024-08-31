@@ -35,7 +35,7 @@ class FindDialog(Widget):
     }
     """
 
-    BINDINGS= [
+    BINDINGS = [
         Binding("escape", "dismiss_find", "Dismiss", key_display="esc", show=False),
     ]
 
@@ -50,10 +50,7 @@ class FindDialog(Widget):
         pass
 
     def compose(self) -> ComposeResult:
-        yield Input(
-                placeholder="find",
-                id="find-text"
-              )
+        yield Input(placeholder="find", id="find-text")
 
     def focus_input(self) -> None:
         self.query_one("#find-text").focus()

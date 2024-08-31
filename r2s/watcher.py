@@ -4,6 +4,7 @@ from textual.app import App
 
 from threading import Thread, Event
 
+
 class WatcherBase(ABC):
     def __init__(self) -> None:
         self._thread: Thread | None = None
@@ -23,5 +24,3 @@ class WatcherBase(ABC):
     @abstractmethod
     def run(self) -> None:
         """Thread runner."""
-
-

@@ -13,6 +13,7 @@ from r2s.widgets.find_dialog import FindDialog
 
 from typing import List
 
+
 class DataGrid(Horizontal):
     DEFAULT_CSS = """
     DataGrid{
@@ -38,20 +39,19 @@ class DataGrid(Horizontal):
 
     def compose(self) -> ComposeResult:
         table: DataTable[Text] = DataTable(
-            id = "data_table",
-            header_height = 1,
-            show_cursor = True,
-            zebra_stripes = True,
+            id="data_table",
+            header_height=1,
+            show_cursor=True,
+            zebra_stripes=True,
         )
         table.focus()
 
         for col in self.columns():
             table.add_column(col, key=col.lower())
 
-        table.cursor_type='row'
+        table.cursor_type = "row"
         yield table
         yield FindDialog()
-
 
     async def watch_show_find(self, show_find: bool) -> None:
         if not self.is_mounted:

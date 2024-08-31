@@ -6,6 +6,7 @@ from r2s.screens.main_screen import MainScreen
 from r2s.screens.colcon.package_list import PackageListScreen
 from r2s.screens.ros2.nodes import NodeListScreen
 
+
 class UI(App):
     BINDINGS = [
         Binding("ctrl+c,q", "quit", "Quit", show=True, key_display="Q"),

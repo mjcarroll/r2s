@@ -2,16 +2,11 @@ from rich.text import Text
 from textual.app import ComposeResult
 from textual.containers import Grid
 from textual.screen import ModalScreen
-from textual.widgets import (
-        Button,
-        DataTable
-)
+from textual.widgets import Button, DataTable
+
 
 class HelpModal(ModalScreen):
-    help_message = (
-        ("Q", "Quit"),
-        ("?", "Help")
-    )
+    help_message = (("Q", "Quit"), ("?", "Help"))
 
     def compose(self) -> ComposeResult:
         button = Button("OK")

@@ -1,5 +1,6 @@
 from textual.widget import Widget
 
+
 class Header(Widget):
     DEFAULT_CSS = """
     Header {

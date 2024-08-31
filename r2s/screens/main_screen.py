@@ -7,15 +7,17 @@ from textual.widgets import Footer
 
 from textual import log
 
-from r2s.widgets import Header 
+from r2s.widgets import Header
 from r2s.widgets import DataGrid
 from r2s.watcher import WatcherBase
+
 
 class NodeWatcher(WatcherBase):
     def run(self) -> None:
         while not self._exit_event.is_set():
             time.sleep(1.0)
             log("Watching")
+
 
 class MainScreen(Screen):
     CSS = """
