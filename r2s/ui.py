@@ -12,6 +12,4 @@ class UI(App):
 
     async def on_mount(self) -> None:
         self.ansi_theme_dark = terminal_theme.DIMMED_MONOKAI
-        # await self.push_screen(MainScreen())
-        # await self.push_screen(PackageListScreen())
         await self.push_screen(NodeListScreen())
