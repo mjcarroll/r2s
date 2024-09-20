@@ -2216,5 +2216,5 @@ ros = ["numpy"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.12"
-content-hash = "514dca8703fbe3c10f037ef0c5caedb7e01d90d8fd25c5f5f648b506395c5187"
+python-versions = "^3.11"
+content-hash = "bb777b3160df806500a927abebb3debadea4859be6be54bbf1a559566969d387"
