@@ -18,19 +18,19 @@ from typing import List
 from r2s.screens.ros2.get_node import get_node
 
 
-
 @dataclass(frozen=True, eq=False)
 class Topic:
     name: str
     type: str
-    # TODO add node where the topic is coming from?
+    numPubs: int
+    numSubs: int
+    # TODO add node where the topic is coming from
     # TODO namespace
-    # TODO pub/sub counts?
 
 class TopicsFetched(Message):
     def __init__(self, topic_list: List[Topic]) -> None:
         self.topic_list = topic_list
-        super().__init__
+        super().__init__()
 
 class TopicListWatcher(WatcherBase):
     target: Widget
@@ -38,7 +38,6 @@ class TopicListWatcher(WatcherBase):
     def run(self) -> None:
         while not self._exit_event.is_set():
             topics: List[Topic] = []
-            print('test')
 
             # TODO probably want to get node from node screen
             node = get_node()
@@ -46,26 +45,31 @@ class TopicListWatcher(WatcherBase):
 
             # Fill list of topics
             for t in topic_names_and_types:
+                topicName = t[0]
+                numPubs = node.count_publishers(topicName)
+                numSubs = node.count_subscribers(topicName)
                 topics.append(
-                    Topic(name=t[0], type=t[1])
+                    Topic(name=topicName, type=t[1], numPubs=numPubs, numSubs=numSubs)
                 )
 
+            log(topics)
             self.target.post_message(TopicsFetched(topics))
 
 class TopicListGrid(DataGrid):
     def columns(self):
-        return ["Name", "Type"]
+        return ["Name", "Type", "# Pubs", "# Subs"]
 
     def on_topics_fetched(self, message: TopicsFetched) -> None:
         message.stop()
-        log(message.topics_list)
 
         table = self.query_one("#data_table", DataTable)
         for topic in message.topic_list:
             if topic.name not in table.rows:
                 table.add_row(
                     topic.name,
-                    topic.type
+                    topic.type,
+                    topic.numPubs,
+                    topic.numSubs,
                     )
 
 class TopicListScreen(Screen):
