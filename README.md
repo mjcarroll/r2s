@@ -16,3 +16,17 @@ cd r2s
 poetry install
 poetry run r2s
 ```
+
+## Development
+
+To run in development mode:
+
+```
+poetry shell
+textual run --dev r2s.main:main
+```
+
+```
+poetry shell
+textual console
+```
