@@ -5,11 +5,10 @@ from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.message import Message
 from textual.widget import Widget
-from textual.widgets import DataTable
+from textual.widgets import DataTable, Footer
 
 from r2s.watcher import WatcherBase
-from r2s.widgets import DataGrid
-from r2s.widgets import Header
+from r2s.widgets import DataGrid, Header
 
 from typing import List
 
@@ -38,6 +37,7 @@ class TopicListWatcher(WatcherBase):
     target: Widget
 
     def run(self) -> None:
+        log("TOPIC LIST")
         while not self._exit_event.is_set():
             topics: List[Topic] = []
 
@@ -58,17 +58,21 @@ class TopicListWatcher(WatcherBase):
                     Topic(name=topicName, type=t[1], numPubs=numPubs, numSubs=numSubs, pubNodes=pubNodes, subNodes=subNodes)
                 )
 
-            log(topics)
             self.target.post_message(TopicsFetched(topics))
 
 class TopicListGrid(DataGrid):
+    id = "topic_list_table"
+    def __init__(self):
+        super().__init__(id=self.id)
+
     def columns(self):
         return ["Name", "Type", "# Pubs", "# Subs", "Publishing Nodes", "Subscribing Nodes"]
 
     def on_topics_fetched(self, message: TopicsFetched) -> None:
+        log("ON TOPICS FETCHED")
         message.stop()
 
-        table = self.query_one("#data_table", DataTable)
+        table = self.query_one("#" + self.id, DataTable)
         for topic in message.topic_list:
             # TODO currently this won't update when num of pub/subs changes
             if topic.name not in table.rows:
@@ -100,3 +104,4 @@ class TopicListScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Header()
         yield TopicListGrid()
+        yield Footer()

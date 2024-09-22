@@ -6,7 +6,7 @@ from textual.app import ComposeResult
 from textual.message import Message
 from textual.screen import Screen
 from textual.widget import Widget
-from textual.widgets import DataTable
+from textual.widgets import DataTable, Footer
 
 from r2s.screens.ros2.get_node import get_node
 from r2s.watcher import WatcherBase
@@ -86,3 +86,4 @@ class NodeListScreen(Screen):
     def compose(self) -> ComposeResult:
         yield Header()
         yield NodeListGrid()
+        yield Footer()
