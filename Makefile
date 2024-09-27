@@ -19,7 +19,7 @@ format-check:
 .PHONY: setup
 setup:
 	poetry install
-	poetry install --extras colcon
+	poetry install --extras colcon,ros
 
 .PHONY: update
 update:

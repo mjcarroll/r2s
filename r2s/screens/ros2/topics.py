@@ -11,10 +11,7 @@ from r2s.watcher import WatcherBase
 from r2s.widgets import DataGrid, Header
 
 from typing import List
-
-
-# TODO update to core, rather than quick debugging
-from r2s.screens.ros2.get_node import get_node
+import time
 
 from rclpy.topic_endpoint_info import TopicEndpointInfo
 
@@ -36,29 +33,35 @@ class TopicsFetched(Message):
 class TopicListWatcher(WatcherBase):
     target: Widget
 
+    def __init__(self, node):
+        self.node = node
+        super().__init__()
+
     def run(self) -> None:
         log("TOPIC LIST")
         while not self._exit_event.is_set():
             topics: List[Topic] = []
-
-            node = get_node()
-            topic_names_and_types = node.get_topic_names_and_types()
+            topic_names_and_types = self.node.get_topic_names_and_types()
 
             # Fill list of topics
             for t in topic_names_and_types:
                 topicName = t[0]
-                numSubs = node.count_subscribers(topicName)
-                numPubs = node.count_publishers(topicName)
-                topicPubs = node.get_publishers_info_by_topic(topicName)
-                topicSubs = node.get_subscriptions_info_by_topic(topicName)
+                #numSubs = node.count_subscribers(topicName)
+                #numPubs = node.count_publishers(topicName)
+                #topicPubs = node.get_publishers_info_by_topic(topicName)
+                #topicSubs = node.get_subscriptions_info_by_topic(topicName)
+                numSubs = 0
+                numPubs = 0
+                topicPubs = []
+                topicSubs = []
                 pubNodes = [topicPub.node_name for topicPub in topicPubs]
                 subNodes = [topicSub.node_name for topicSub in topicSubs]
 
                 topics.append(
                     Topic(name=topicName, type=t[1], numPubs=numPubs, numSubs=numSubs, pubNodes=pubNodes, subNodes=subNodes)
                 )
-
             self.target.post_message(TopicsFetched(topics))
+            time.sleep(0.2)
 
 class TopicListGrid(DataGrid):
     id = "topic_list_table"
@@ -83,6 +86,7 @@ class TopicListGrid(DataGrid):
                     topic.numSubs,
                     topic.pubNodes,  # TODO would be nice if list could show in multiline
                     topic.subNodes,  # TODO ^^ same for multiline
+                    key = topic.name
                     )
 
 class TopicListScreen(Screen):
@@ -90,8 +94,8 @@ class TopicListScreen(Screen):
     PackageListScreen {}
     """
 
-    def __init__(self):
-        self.watcher = TopicListWatcher()
+    def __init__(self, node):
+        self.watcher = TopicListWatcher(node)
         super().__init__()
 
     async def on_mount(self) -> None:
