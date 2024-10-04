@@ -45,14 +45,10 @@ class TopicListWatcher(WatcherBase):
             # Fill list of topics
             for t in topic_names_and_types:
                 topicName = t[0]
-                #numSubs = node.count_subscribers(topicName)
-                #numPubs = node.count_publishers(topicName)
-                #topicPubs = node.get_publishers_info_by_topic(topicName)
-                #topicSubs = node.get_subscriptions_info_by_topic(topicName)
-                numSubs = 0
-                numPubs = 0
-                topicPubs = []
-                topicSubs = []
+                numSubs = self.node.node.count_subscribers(topicName)
+                numPubs = self.node.node.count_publishers(topicName)
+                topicPubs = self.node.node.get_publishers_info_by_topic(topicName)
+                topicSubs = self.node.node.get_subscriptions_info_by_topic(topicName)
                 pubNodes = [topicPub.node_name for topicPub in topicPubs]
                 subNodes = [topicSub.node_name for topicSub in topicSubs]
 

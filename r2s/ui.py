@@ -20,7 +20,7 @@ class UI(App):
         self.MODES["nodes"] = NodeListScreen(self.node)
         self.MODES["topics"] = TopicListScreen(self.node)
         self.ansi_theme_dark = terminal_theme.DIMMED_MONOKAI
-        self.switch_mode("topics")
+        self.switch_mode("nodes")
 
     async def on_unmount(self) ->None:
         self.node.stop()
