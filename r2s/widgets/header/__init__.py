@@ -30,13 +30,12 @@ jazzy
 mjcarroll.c.googlers.com
 ~/workspaces/in_sdk/"""
 
-    LOGO ="""       ________
+    LOGO = """       ________
 _______\\_____  \\   ______
 \\_  __ \\/  ____/  /  ___/
  |  | \\/       \\  \\___ \\
  |__|  \\_______ \\/____  >
                \\/     \\/ """
-
 
     def compose(self):
         yield Static(self.TITLES, classes="header-box")

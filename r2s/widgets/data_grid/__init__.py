@@ -30,13 +30,15 @@ class DataGrid(Horizontal):
     show_find: reactive[bool] = reactive(False)
     sort_idx: int = 0
 
+    id: str = "data_table"
+
     def columns(self) -> List[str]:
         """Get the column labels"""
         return []
 
     def compose(self) -> ComposeResult:
         table: DataTable[Text] = DataTable(
-            id="data_table",
+            id=self.id,
             header_height=1,
             show_cursor=True,
             zebra_stripes=True,

@@ -1,3 +1,4 @@
+import time
 from dataclasses import dataclass
 from typing import List
 
@@ -6,9 +7,8 @@ from textual.app import ComposeResult
 from textual.message import Message
 from textual.screen import Screen
 from textual.widget import Widget
-from textual.widgets import DataTable
+from textual.widgets import DataTable, Footer
 
-from r2s.screens.ros2.get_node import get_node
 from r2s.watcher import WatcherBase
 from r2s.widgets import DataGrid, Header
 
@@ -29,12 +29,15 @@ class NodesFetched(Message):
 class NodeListWatcher(WatcherBase):
     target: Widget
 
+    def __init__(self, node):
+        self.node = node
+        super().__init__()
+
     def run(self) -> None:
         while not self._exit_event.is_set():
+            log("nodelistwatcher::run")
             nodes: List[Node] = []
-
-            node = get_node()
-            node_names_and_namespaces = node.get_node_names_and_namespaces()
+            node_names_and_namespaces = self.node.node.get_node_names_and_namespaces()
 
             # Fill list of nodes here
             for t in node_names_and_namespaces:
@@ -45,8 +48,8 @@ class NodeListWatcher(WatcherBase):
                         full_name=t[1] + ("" if t[1].endswith("/") else "/") + t[0],
                     )
                 )
-
             self.target.post_message(NodesFetched(nodes))
+            time.sleep(0.5)
 
 
 class NodeListGrid(DataGrid):
@@ -55,14 +58,11 @@ class NodeListGrid(DataGrid):
 
     def on_nodes_fetched(self, message: NodesFetched) -> None:
         message.stop()
-        log(message.node_list)
         table = self.query_one("#data_table", DataTable)
         for node in message.node_list:
             if node.full_name not in table.rows:
                 table.add_row(
-                    node.namespace,
-                    node.name,
-                    node.full_name,
+                    node.namespace, node.name, node.full_name, key=node.full_name
                 )
 
 
@@ -71,18 +71,19 @@ class NodeListScreen(Screen):
     PackageListScreen {}
     """
 
-    def __init__(self):
-        self.watcher = NodeListWatcher()
+    def __init__(self, node):
+        self.watcher = NodeListWatcher(node)
         super().__init__()
 
     async def on_mount(self) -> None:
         self.watcher.target = self.query_one(NodeListGrid)
         self.watcher.start()
+        log("on_mount")
 
     def on_unmount(self) -> None:
-
         self.watcher.close()
 
     def compose(self) -> ComposeResult:
         yield Header()
         yield NodeListGrid()
+        yield Footer()
