@@ -35,8 +35,9 @@ class NodeListWatcher(WatcherBase):
 
     def run(self) -> None:
         while not self._exit_event.is_set():
+            log("nodelistwatcher::run")
             nodes: List[Node] = []
-            node_names_and_namespaces = self.node.get_nodes_and_namespaces()
+            node_names_and_namespaces = self.node.node.get_node_names_and_namespaces()
 
             # Fill list of nodes here
             for t in node_names_and_namespaces:
@@ -80,6 +81,7 @@ class NodeListScreen(Screen):
     async def on_mount(self) -> None:
         self.watcher.target = self.query_one(NodeListGrid)
         self.watcher.start()
+        log("on_mount")
 
     def on_unmount(self) -> None:
         self.watcher.close()

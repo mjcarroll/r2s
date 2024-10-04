@@ -38,10 +38,9 @@ class TopicListWatcher(WatcherBase):
         super().__init__()
 
     def run(self) -> None:
-        log("TOPIC LIST")
         while not self._exit_event.is_set():
             topics: List[Topic] = []
-            topic_names_and_types = self.node.get_topic_names_and_types()
+            topic_names_and_types = self.node.node.get_topic_names_and_types()
 
             # Fill list of topics
             for t in topic_names_and_types:
@@ -74,7 +73,6 @@ class TopicListGrid(DataGrid):
     def on_topics_fetched(self, message: TopicsFetched) -> None:
         log("ON TOPICS FETCHED")
         message.stop()
-
         table = self.query_one("#" + self.id, DataTable)
         for topic in message.topic_list:
             # TODO currently this won't update when num of pub/subs changes

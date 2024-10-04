@@ -42,16 +42,13 @@ class NodeWrapper:
             ],
             automatically_declare_parameters_from_overrides=True,
         )
-        self.mutex = threading.Lock()
         self.spinning = True
         self.spinner = threading.Thread(target=self.spin)
         self.spinner.start()
 
     def stop(self):
-        self.mutex.acquire()
         self.spinning = False
         self.spinner.join()
-        self.mutex.release()
 
     def __del__(self):
         self.stop()
@@ -59,18 +56,8 @@ class NodeWrapper:
     def spin(self):
         log("start spinning")
         while self.spinning:
-            log("spin")
-            self.mutex.acquire()
-            rclpy.spin_once(self.node, timeout_sec=0.1)
-            self.nodes_and_namespaces = self.node.get_node_names_and_namespaces()
-            self.topic_names_and_types = self.node.get_topic_names_and_types()
-            self.mutex.release()
+            rclpy.spin_once(self.node, timeout_sec=0.5)
 
-    def get_nodes_and_namespaces(self):
-        return self.nodes_and_namespaces
-
-    def get_topic_names_and_types(self):
-        return self.topic_names_and_types
 
 def get_node(*args, node_name=None):
     global RCLPY_INIT, RCLPY_NODE
