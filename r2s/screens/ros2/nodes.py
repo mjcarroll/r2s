@@ -62,10 +62,7 @@ class NodeListGrid(DataGrid):
         for node in message.node_list:
             if node.full_name not in table.rows:
                 table.add_row(
-                    node.namespace,
-                    node.name,
-                    node.full_name,
-                    key=node.full_name
+                    node.namespace, node.name, node.full_name, key=node.full_name
                 )
 
 

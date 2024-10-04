@@ -37,7 +37,8 @@ class NodeWrapper:
             parameter_overrides=[
                 Parameter("use_sim_time", value=use_sim_time),
                 Parameter(
-                    "start_type_description_service", value=start_type_description_service
+                    "start_type_description_service",
+                    value=start_type_description_service,
                 ),
             ],
             automatically_declare_parameters_from_overrides=True,

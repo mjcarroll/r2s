@@ -9,8 +9,15 @@ from r2s.screens.ros2.get_node import get_node
 
 class UI(App):
     BINDINGS = [
-        Binding(key="n", action="switch_mode('nodes')", description="Nodes", key_display="n"),
-        Binding(key="t", action="switch_mode('topics')", description="Topics", key_display="t"),
+        Binding(
+            key="n", action="switch_mode('nodes')", description="Nodes", key_display="n"
+        ),
+        Binding(
+            key="t",
+            action="switch_mode('topics')",
+            description="Topics",
+            key_display="t",
+        ),
         Binding("ctrl+c,q", "quit", "Quit", show=True, key_display="Q"),
     ]
     MODES = {}
@@ -22,5 +29,5 @@ class UI(App):
         self.ansi_theme_dark = terminal_theme.DIMMED_MONOKAI
         self.switch_mode("nodes")
 
-    async def on_unmount(self) ->None:
+    async def on_unmount(self) -> None:
         self.node.stop()

@@ -15,6 +15,7 @@ import time
 
 from rclpy.topic_endpoint_info import TopicEndpointInfo
 
+
 @dataclass(frozen=True, eq=False)
 class Topic:
     name: str
@@ -25,10 +26,12 @@ class Topic:
     subNodes: List[str]  # the nodes subscribing to the topic
     # TODO namespace
 
+
 class TopicsFetched(Message):
     def __init__(self, topic_list: List[Topic]) -> None:
         self.topic_list = topic_list
         super().__init__()
+
 
 class TopicListWatcher(WatcherBase):
     target: Widget
@@ -53,18 +56,34 @@ class TopicListWatcher(WatcherBase):
                 subNodes = [topicSub.node_name for topicSub in topicSubs]
 
                 topics.append(
-                    Topic(name=topicName, type=t[1], numPubs=numPubs, numSubs=numSubs, pubNodes=pubNodes, subNodes=subNodes)
+                    Topic(
+                        name=topicName,
+                        type=t[1],
+                        numPubs=numPubs,
+                        numSubs=numSubs,
+                        pubNodes=pubNodes,
+                        subNodes=subNodes,
+                    )
                 )
             self.target.post_message(TopicsFetched(topics))
             time.sleep(0.2)
 
+
 class TopicListGrid(DataGrid):
     id = "topic_list_table"
+
     def __init__(self):
         super().__init__(id=self.id)
 
     def columns(self):
-        return ["Name", "Type", "# Pubs", "# Subs", "Publishing Nodes", "Subscribing Nodes"]
+        return [
+            "Name",
+            "Type",
+            "# Pubs",
+            "# Subs",
+            "Publishing Nodes",
+            "Subscribing Nodes",
+        ]
 
     def on_topics_fetched(self, message: TopicsFetched) -> None:
         log("ON TOPICS FETCHED")
@@ -80,8 +99,9 @@ class TopicListGrid(DataGrid):
                     topic.numSubs,
                     topic.pubNodes,  # TODO would be nice if list could show in multiline
                     topic.subNodes,  # TODO ^^ same for multiline
-                    key = topic.name
-                    )
+                    key=topic.name,
+                )
+
 
 class TopicListScreen(Screen):
     CSS = """
