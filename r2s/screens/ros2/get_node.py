@@ -48,7 +48,6 @@ class NodeWrapper:
             log("Exception caught when creating node:  ", e)
             exit(1)
 
-
         self.spinning = True
         self.spinner = threading.Thread(target=self.spin)
         self.spinner.start()

@@ -6,6 +6,7 @@ from ros2doctor.api import platform
 import os
 import socket
 
+
 class Header(Widget):
     DEFAULT_CSS = """
     Header {
@@ -33,7 +34,7 @@ Workspace:
     distro_report = platform.RosdistroReport()
     report = distro_report.report()
     for k, v in report.items:
-        if k == 'distribution name':
+        if k == "distribution name":
             ros_version = v
             break
 
@@ -44,7 +45,9 @@ Workspace:
     INFO = """0.0.1
 {ros_version}
 {hostname}
-{workspace}""".format(ros_version=ros_version, hostname=hostname, workspace=workspace)
+{workspace}""".format(
+        ros_version=ros_version, hostname=hostname, workspace=workspace
+    )
 
     LOGO = """       ________
 _______\\_____  \\   ______

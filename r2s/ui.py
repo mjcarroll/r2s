@@ -6,6 +6,7 @@ from r2s.screens.ros2.topics import TopicListScreen
 
 from r2s.screens.ros2.get_node import get_node
 
+
 class UI(App):
     BINDINGS = [
         Binding(
