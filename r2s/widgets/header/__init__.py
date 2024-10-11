@@ -1,6 +1,11 @@
 from textual.widget import Widget
 from textual.widgets import Static
 
+from ros2doctor.api import platform
+
+import os
+import socket
+
 
 class Header(Widget):
     DEFAULT_CSS = """
@@ -25,10 +30,24 @@ Hostname:
 Workspace:
 """
 
+    ros_version = ""
+    distro_report = platform.RosdistroReport()
+    report = distro_report.report()
+    for k, v in report.items:
+        if k == "distribution name":
+            ros_version = v
+            break
+
+    hostname = socket.gethostname()
+
+    workspace = os.getcwd()
+
     INFO = """0.0.1
-jazzy
-mjcarroll.c.googlers.com
-~/workspaces/in_sdk/"""
+{ros_version}
+{hostname}
+{workspace}""".format(
+        ros_version=ros_version, hostname=hostname, workspace=workspace
+    )
 
     LOGO = """       ________
 _______\\_____  \\   ______

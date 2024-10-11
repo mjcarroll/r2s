@@ -31,18 +31,23 @@ class NodeWrapper:
         if node_name is None:
             node_name = NODE_NAME_PREFIX + node_name_suffix
 
-        self.node = rclpy.create_node(
-            node_name,
-            start_parameter_services=start_parameter_services,
-            parameter_overrides=[
-                Parameter("use_sim_time", value=use_sim_time),
-                Parameter(
-                    "start_type_description_service",
-                    value=start_type_description_service,
-                ),
-            ],
-            automatically_declare_parameters_from_overrides=True,
-        )
+        try:
+            self.node = rclpy.create_node(
+                node_name,
+                start_parameter_services=start_parameter_services,
+                parameter_overrides=[
+                    Parameter("use_sim_time", value=use_sim_time),
+                    Parameter(
+                        "start_type_description_service",
+                        value=start_type_description_service,
+                    ),
+                ],
+                automatically_declare_parameters_from_overrides=True,
+            )
+        except Exception as e:
+            log("Exception caught when creating node:  ", e)
+            exit(1)
+
         self.spinning = True
         self.spinner = threading.Thread(target=self.spin)
         self.spinner.start()

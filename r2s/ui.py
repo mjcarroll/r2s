@@ -22,8 +22,9 @@ class UI(App):
     ]
     MODES = {}
 
+    node = get_node()
+
     async def on_mount(self) -> None:
-        self.node = get_node()
         self.MODES["nodes"] = NodeListScreen(self.node)
         self.MODES["topics"] = TopicListScreen(self.node)
         self.ansi_theme_dark = terminal_theme.DIMMED_MONOKAI
