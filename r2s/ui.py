@@ -1,6 +1,7 @@
 from rich import terminal_theme
 from textual.app import App
 from textual.binding import Binding
+from r2s.screens.ros2.lifecycle_nodes import LifecycleNodesListScreen
 from r2s.screens.ros2.nodes import NodeListScreen
 from r2s.screens.ros2.topics import TopicListScreen
 
@@ -18,6 +19,12 @@ class UI(App):
             description="Topics",
             key_display="t",
         ),
+        Binding(
+            key="l",
+            action="switch_mode('lifecycle')",
+            description="Lifecycle",
+            key_display="l",
+        ),
         Binding("ctrl+c,q", "quit", "Quit", show=True, key_display="Q"),
     ]
     MODES = {}
@@ -25,6 +32,7 @@ class UI(App):
     node = get_node()
 
     async def on_mount(self) -> None:
+        self.MODES["lifecycle"] = LifecycleNodesListScreen(self.node)
         self.MODES["nodes"] = NodeListScreen(self.node)
         self.MODES["topics"] = TopicListScreen(self.node)
         self.ansi_theme_dark = terminal_theme.DIMMED_MONOKAI
