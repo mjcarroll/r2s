@@ -19,6 +19,7 @@ import time
 class LifecycleNode:
     name: str
     state: str
+    available_transitions: List[str]
 
 
 class LifecycleNodesFetched(Message):
@@ -47,13 +48,25 @@ class LifecycleNodesListWatcher(WatcherBase):
                 node=self.node.node, node_names=[name.full_name for name in node_names]
             )
 
+            available_transitions = r2CycleApi.call_get_available_transitions(
+                node=self.node.node, states=states
+            )
+
             # Fill list of lifecycle nodes
             for n in node_names:
 
                 state = states[n.full_name]
+                transitions = [
+                    t.transition.label.upper()
+                    for t in available_transitions[n.full_name]
+                ]
 
                 lifecycle_nodes.append(
-                    LifecycleNode(name=n.full_name, state=state.label.upper())
+                    LifecycleNode(
+                        name=n.full_name,
+                        state=state.label.upper(),
+                        available_transitions=transitions,
+                    )
                 )
             self.target.post_message(LifecycleNodesFetched(lifecycle_nodes))
             time.sleep(0.2)
@@ -66,7 +79,7 @@ class LifecycleNodesListGrid(DataGrid):
         super().__init__(id=self.id)
 
     def columns(self):
-        return ["Name", "State"]
+        return ["Name", "State", "Available Transitions"]
 
     def on_lifecycle_nodes_fetched(self, message: LifecycleNodesFetched) -> None:
         message.stop()
@@ -77,10 +90,17 @@ class LifecycleNodesListGrid(DataGrid):
                 table.add_row(
                     lifecycle_node.name,
                     lifecycle_node.state,
+                    lifecycle_node.available_transitions,
                     key=lifecycle_node.name,
                 )
             elif table.get_cell(lifecycle_node.name, "state") != lifecycle_node.state:
                 table.update_cell(lifecycle_node.name, "state", lifecycle_node.state)
+                table.update_cell(
+                    lifecycle_node.name,
+                    "available transitions",
+                    lifecycle_node.available_transitions,
+                    update_width=True,
+                )
 
 
 class LifecycleNodesListScreen(Screen):
