@@ -18,6 +18,8 @@ import time
 @dataclass(frozen=True, eq=False)
 class LifecycleNode:
     name: str
+    namespace: str
+    full_name: str
     state: str
     available_transitions: List[str]
 
@@ -63,7 +65,9 @@ class LifecycleNodesListWatcher(WatcherBase):
 
                 lifecycle_nodes.append(
                     LifecycleNode(
-                        name=n.full_name,
+                        name=n.name,
+                        namespace=n.namespace,
+                        full_name=n.full_name,
                         state=state.label.upper(),
                         available_transitions=transitions,
                     )
@@ -79,24 +83,31 @@ class LifecycleNodesListGrid(DataGrid):
         super().__init__(id=self.id)
 
     def columns(self):
-        return ["Name", "State", "Available Transitions"]
+        return ["Name", "Namespace", "Full Name", "State", "Available Transitions"]
 
     def on_lifecycle_nodes_fetched(self, message: LifecycleNodesFetched) -> None:
         message.stop()
         table = self.query_one("#" + self.id, DataTable)
         for lifecycle_node in message.lifecycle_nodes_list:
 
-            if lifecycle_node.name not in table.rows:
+            if lifecycle_node.full_name not in table.rows:
                 table.add_row(
                     lifecycle_node.name,
+                    lifecycle_node.namespace,
+                    lifecycle_node.full_name,
                     lifecycle_node.state,
                     lifecycle_node.available_transitions,
-                    key=lifecycle_node.name,
+                    key=lifecycle_node.full_name,
                 )
-            elif table.get_cell(lifecycle_node.name, "state") != lifecycle_node.state:
-                table.update_cell(lifecycle_node.name, "state", lifecycle_node.state)
+            elif (
+                table.get_cell(lifecycle_node.full_name, "state")
+                != lifecycle_node.state
+            ):
                 table.update_cell(
-                    lifecycle_node.name,
+                    lifecycle_node.full_name, "state", lifecycle_node.state
+                )
+                table.update_cell(
+                    lifecycle_node.full_name,
                     "available transitions",
                     lifecycle_node.available_transitions,
                     update_width=True,
