@@ -13,6 +13,7 @@ from r2s.widgets import DataGrid, Header
 from typing import List
 import time
 
+
 @dataclass(frozen=True, eq=False)
 class Action:
     name: str
