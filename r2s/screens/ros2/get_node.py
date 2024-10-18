@@ -9,7 +9,7 @@ import time
 from textual import log
 
 DEFAULT_TIMEOUT = 0.5
-NODE_NAME_PREFIX = "r2s"
+NODE_NAME_PREFIX = "_r2s"
 
 RCLPY_INIT: bool = False
 RCLPY_NODE = None
