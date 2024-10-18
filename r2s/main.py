@@ -1,8 +1,8 @@
-from . import ui
+from r2s.ui import UI 
 
 
 def main(*args, **kwargs):
-    app = ui.UI()
+    app = UI()
     app.run()
 
 

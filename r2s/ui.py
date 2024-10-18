@@ -27,7 +27,7 @@ class UI(App):
             description="Lifecycle",
             key_display="l",
         ),
-        Binding)
+        Binding(
             key="s",
             action="switch_mode('services')",
             description="Services",
