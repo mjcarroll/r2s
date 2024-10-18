@@ -1,11 +1,12 @@
 from textual.widget import Widget
 from textual.widgets import Static
 
-from ros2doctor.api import platform
-
-import os
-import socket
-
+LOGO = """       ________
+_______\\_____  \\   ______
+\\_  __ \\/  ____/  /  ___/
+ |  | \\/       \\  \\___ \\
+ |__|  \\_______ \\/____  >
+               \\/     \\/ """
 
 class Header(Widget):
     DEFAULT_CSS = """
@@ -24,39 +25,16 @@ class Header(Widget):
     }
     """
 
-    TITLES = """r2s Version:
-ROS Version:
-Hostname:
-Workspace:
-"""
+    def left(self):
+        return Static("", classes="header-box")
 
-    ros_version = ""
-    distro_report = platform.RosdistroReport()
-    report = distro_report.report()
-    for k, v in report.items:
-        if k == "distribution name":
-            ros_version = v
-            break
+    def center(self):
+        return Static("", classes="header-box")
 
-    hostname = socket.gethostname()
-
-    workspace = os.getcwd()
-
-    INFO = """0.0.1
-{ros_version}
-{hostname}
-{workspace}""".format(
-        ros_version=ros_version, hostname=hostname, workspace=workspace
-    )
-
-    LOGO = """       ________
-_______\\_____  \\   ______
-\\_  __ \\/  ____/  /  ___/
- |  | \\/       \\  \\___ \\
- |__|  \\_______ \\/____  >
-               \\/     \\/ """
+    def right(self):
+        return Static(LOGO, classes="header-box")
 
     def compose(self):
-        yield Static(self.TITLES, classes="header-box")
-        yield Static(self.INFO, classes="header-box")
-        yield Static(self.LOGO, classes="header-box")
+        yield self.left()
+        yield self.center()
+        yield self.right()
