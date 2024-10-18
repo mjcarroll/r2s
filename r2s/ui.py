@@ -3,15 +3,24 @@ from textual.app import App
 from textual.binding import Binding
 from textual import log
 
+ROS_AVAILABLE = True
+COLCON_AVAILABLE = True
+
 try:
     from r2s.screens.ros2.get_node import get_node
     from r2s.screens.ros2.nodes import NodeListScreen, NodeSelected
-    from r2s.screens.ros2.interfaces import InterfaceListScreen 
-    ROS_AVAILABLE = True
+    from r2s.screens.ros2.interfaces import InterfaceListScreen
 except ImportError as ex:
     ROS_AVAILABLE = False
     ROS_ERROR = ex
     print(ex)
+
+try:
+    from r2s.screens.colcon.log import LogScreen
+except ImportError as ex:
+    COLCON_AVAILABLE = False
+    print(ex)
+
 
 
 class UI(App):
