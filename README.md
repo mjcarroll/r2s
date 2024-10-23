@@ -6,6 +6,9 @@ It is intended as a supplement to the [ros2cli](https://github.com/ros2/ros2cli)
 
 r2s is written in Python and utilizes [Textual](https://github.com/textualize/textual/) for building the UI.
 
+![Alt Text](doc/r2s.gif)
+
+
 ## Installing
 
 To run:
