@@ -12,6 +12,8 @@ COPY . .
 
 RUN /root/.local/bin/poetry install
 
-RUN echo "PATH=/root/.local/bin:${PATH}" >> ${HOME}/.bash_aliases \
-    echo "source /opt/ros/kilted/setup.bash" >> ${HOME}/.bash_aliases \
-    echo "alias r2s='cd /r2s && poetry run r2s'" >> ${HOME}/.bash_aliases
+RUN echo "PATH=/root/.local/bin:${PATH}" >> ${HOME}/.bash_aliases 
+RUN echo "source /opt/ros/kilted/setup.bash" >> ${HOME}/.bash_aliases
+RUN echo "alias r2s='cd /r2s && poetry run r2s'" >> ${HOME}/.bash_aliases
+RUN echo "alias dev='\$(poetry env activate) && textual run --dev r2s.main:main'" >> ${HOME}/.bash_aliases
+RUN echo "alias console='\$(poetry env activate) && textual console'" >> ${HOME}/.bash_aliases
