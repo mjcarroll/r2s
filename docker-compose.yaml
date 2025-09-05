@@ -1,0 +1,11 @@
+services:
+  r2s:
+    build: 
+      context: .
+    network_mode: "host"
+    stdin_open: true   
+    tty: true   
+    command: bash -c "\
+      source /opt/ros/kilted/setup.bash \
+      && cd /r2s \
+      && /root/.local/bin/poetry run r2s"

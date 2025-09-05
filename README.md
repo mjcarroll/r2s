@@ -20,6 +20,15 @@ poetry install
 poetry run r2s
 ```
 
+To run in a docker container:
+
+```
+git clone https://github.com/mjcarroll/r2s.git
+cd r2s
+docker compose run --remove-orphans r2s
+```
+
+
 ## Development
 
 To run in development mode:
