@@ -20,6 +20,15 @@ poetry install
 poetry run r2s
 ```
 
+To run in a docker container:
+
+```
+git clone https://github.com/mjcarroll/r2s.git
+cd r2s
+docker compose run --remove-orphans r2s
+```
+
+
 ## Development
 
 To run in development mode:
@@ -34,6 +43,21 @@ poetry shell
 textual console
 ```
 
+To run in development inside a docker container:
+
+```
+docker compose watch
+```
+
+```
+docker compose exec -it r2s /bin/bash
+console
+```
+
+```
+docker compose exec -it r2s /bin/bash
+dev
+```
 ## Roadmap
 
 Currently, there are 2 primary widgets for visualizing information in a grid or as a stream of text logs.
