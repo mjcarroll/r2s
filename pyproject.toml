@@ -7,7 +7,7 @@ license = "Apache License 2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 textual = "^0.74.0"
 psutil = "^6.0.0"
 distro = "^1.9.0"
